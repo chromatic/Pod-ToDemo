@@ -1,16 +1,15 @@
 --- #YAML:1.0
 name: Pod-ToDemo
-version: 0.10
+version: 0.20
+author:
+  - chromatic, E<lt>chromatic at wgz dot orgE<gt>
+abstract: writes a demo program from a tutorial POD
 license: perl
-distribution_type: module
 requires:
   Test::Exception: ''
   Test::Simple: 0.47
-recommends: {}
-build_requires: {}
-conflicts: {}
 provides:
   Pod::ToDemo:
     file: lib/Pod/ToDemo.pm
-    version: 0.10
-generated_by: Module::Build version 0.20
+    version: 0.20
+generated_by: Module::Build version 0.25

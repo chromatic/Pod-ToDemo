@@ -1,6 +1,7 @@
 Pod::ToDemo
 -----------
 
+0.20 - Wed Aug 18 05:13:06 UTC 2004
 0.10 - Fri Dec 26 20:25:09 UTC 2003
 
 Pod::ToDemo allows pure-POD tutorials to write demonstration programs when
@@ -9,7 +10,7 @@ working, tweakable programs for people who've just read a tutorial.
 
 For example, SDL::Tutorial, the bare-bones Perl SDL tutorial, will write a demo program given the command line:
 
-	$ perl -MSDL::Tutorial sdl_demo.pl
+	$ perl -MSDL::Tutorial=sdl_demo.pl -e 1
 
 INSTALLATION
 ------------

@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 BEGIN
 {
@@ -7,13 +7,14 @@ BEGIN
 }
 
 use strict;
+use warnings;
 
-use Test::More tests => 7;
+use Test::More 'no_plan'; # tests => 7;
 use Test::Exception;
 
 BEGIN
 {
-	1 while unlink( 'foo', 'bar' );
+	1 while unlink(qw( foo bar filename some_file ));
 }
 
 my $module = 'Pod::ToDemo';
@@ -29,10 +30,45 @@ throws_ok { Pod::ToDemo::write_demo( 'base.t' ) }
 Pod::ToDemo::write_demo( 'bar', 'here is more text' );
 ok( -e 'bar', '... and should write file if everything is sane' );
 
-open( my $file, 'bar' ) or die "Cannot read demo file: $!\n";
-my $text = do { local $/; <$file> };
+my $text = slurp( 'bar' );
+
 is( $text, 'here is more text', '... writing demo file accurately' );
 
 use_ok( 'DemoUser' );
 ok( ! -e 'foo',
 	'defined caller() check should protect against accidental usage' );
+
+my $flag = 0;
+Pod::ToDemo->import( sub { $flag++ } );
+diag( "import() should import a passed sub into the caller's namespace" );
+can_ok( __PACKAGE__, 'import' );
+__PACKAGE__->import();
+ok( $flag, '... the correct sub' );
+
+package Foo;
+
+Pod::ToDemo->import( 'This is more text' );
+__PACKAGE__->import( 'filename' );
+::ok( -e 'filename', 'default import() should write to the passed filename' );
+$text = ::slurp( 'filename' );
+::like( $text, qr/^#!.+?perl..use strict;.use warnings;/s,
+	'... with a Perl header' );
+::like( $text, qr/..This is more text/s, '... and the given text' );
+
+package main;
+
+SKIP:
+{
+	my @commands = ( $^X, '-Ilib', '-MDemoUser=some_file', '-e 1' );
+	skip( "Couldn't execute subprocess: (@commands)", 1 )
+		if system @commands;
+	ok( -e 'some_file', 'executing in separate process should work' )
+		or diag( "Hmm: (@commands): $!" );
+}
+
+sub slurp
+{
+	my $filename = shift;
+	open( my $file, $filename ) or die "Cannot read demo $filename: $!\n";
+	return scalar do { local $/; <$file> };
+}

@@ -3,7 +3,46 @@ package Pod::ToDemo;
 use strict;
 
 use vars '$VERSION';
-$VERSION = '0.10';
+$VERSION = '0.20';
+
+sub import
+{
+	my ($self, $action) = @_;
+	my $call_package    = caller();
+
+	return unless $action;
+
+	my $import_type     = 'import_' . 
+		( defined &$action ? 'subroutine' : 'default' );
+
+	my $import_sub      = $self->$import_type( $action );
+	return unless $import_sub;
+
+	no strict 'refs';
+	*{ $call_package . '::' . 'import' } = $import_sub;
+}
+
+sub import_subroutine
+{
+	my ($self, $sub) = @_;
+	my @c2           = caller( 4 );
+
+	return if @c2 and $c2[1] ne '-e';
+	return $sub;
+}
+
+sub import_default
+{
+	my ($self, $text) = @_;
+
+	return sub
+	{
+		my ($self, $filename) = @_;
+		Pod::ToDemo::write_demo(
+			$filename, "#!$^X\n\nuse strict;\nuse warnings;\n\n$text"
+		);
+	};
+}
 
 sub write_demo
 {
@@ -26,15 +65,7 @@ Pod::ToDemo - writes a demo program from a tutorial POD
 
 =head1 SYNOPSIS
 
-	use Pod::ToDemo;
-
-	# write nothing unless used directly
-	return 1 if defined caller();
-
-	Pod::ToDemo::write_demo( shift( @ARGV ), "#!$^X\n" . <<'END_HERE');
-
-	use strict;
-	use warnings;
+	use Pod::ToDemo <<'END_HERE';
 
 	print "Hi, here is my demo program!\n";
 	END_HERE
@@ -46,9 +77,9 @@ can write out demo programs if they're invoked directly.  That is, while
 L<SDL::Tutorial> is a tutorial on writing beginner SDL applications with Perl,
 you can invoke it as:
 
-	$ perl -MSDL::Tutorial sdl_demo.pl
+	$ perl -MSDL::Tutorial=sdl_demo.pl -e 1
 
-and it will write a bare-bones demo program called C<sdl_demo.pl>, based on the
+and it will write a bare-bones demo program called C<sdl_demo.pl> based on the
 tutorial.
 
 =head1 USAGE
@@ -61,26 +92,28 @@ the text of the demo program to write.
 
 If you're using this in tutorial modules, as you should be, you will probably
 want to protect programs that inadvertently use the tutorial from attempting to
-write demo files.  That's what these two lines do:
+write demo files.  Pod::ToDemo does this automatically for you by checking that
+you haven't invoked the tutorial module from the command line.
 
-	# write nothing unless used directly
-	return 1 if defined caller();
+To prevent perl from interpreting the name of the file to write as the name of
+a file to invoke (a file which does not yet exist), you must pass the name of
+the file on the command line as an argument to the tutorial module's
+C<import()> method.  If this doesn't make sense to you, just remember to tell
+people to write:
 
-If there's a defined caller, this module has been used from another module.
-The demo file will only be written if the module has been used directly.  Note
-that the returned value here will be taken as the return value of the module --
-it must be true or the caller's C<use()> will fail!
+	$ perl -MTutorial::Module=I<file_to_write.pl> -e 1
 
 =head1 AUTHOR
 
-chromatic, E<lt>chromatic@wgz.orgE<gt>
+chromatic, E<lt>chromatic at wgz dot orgE<gt>
 
 =head1 BUGS
 
-No known bugs.
+No known bugs, now.  Thanks to Greg Lapore for helping me track down a bug in
+0.10.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003, chromatic.  All rights reserved.  This module is
+Copyright (c) 2003 - 2004, chromatic.  All rights reserved.  This module is
 distributed under the same terms as Perl itself, in the hope that it is useful
 but certainly under no guarantee.
