@@ -9,7 +9,7 @@ BEGIN
 use strict;
 use warnings;
 
-use Test::More tests => 13;
+use Test::More tests => 14;
 use Test::Exception;
 
 BEGIN
@@ -49,13 +49,16 @@ package Foo;
 
 Pod::ToDemo->import( 'This is more text' );
 __PACKAGE__->import( 'filename' );
-::ok( -e 'filename', 'default import() should write to the passed filename' );
-$text = ::slurp( 'filename' );
-::like( $text, qr/^#!$^X..use strict;.use warnings;/s,
-	'... with a Perl header' );
-::like( $text, qr/..This is more text/s, '... and the given text' );
 
 package main;
+
+my $exists = -e 'filename';
+ok( $exists, 'default import() should write to the pased-in filename' );
+
+$text      = ::slurp( 'filename' );
+like( $text, qr/^#!$^X/,                      '... with a Perl header' );
+like( $text, qr/use strict;.+use warnings;/s, '... strictures and warnings' );
+like( $text, qr/..This is more text/s,        '... and the given text' );
 
 SKIP:
 {

@@ -3,7 +3,7 @@ package Pod::ToDemo;
 use strict;
 
 use vars '$VERSION';
-$VERSION = '0.21';
+$VERSION = '0.22';
 
 sub import
 {
@@ -110,7 +110,7 @@ chromatic, E<lt>chromatic at wgz dot orgE<gt>
 =head1 BUGS
 
 No known bugs, now.  Thanks to Greg Lapore for helping me track down a bug in
-0.10.
+0.10 and to rrwo for Windows test tweaks.
 
 =head1 COPYRIGHT
 

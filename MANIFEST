@@ -5,5 +5,7 @@ Makefile.PL			Backwards-compatibility for Build.PL
 MANIFEST            This list of files
 META.yml            Module metadata
 README              Installation instructions and basic usage
+t/0-signature.t     Test the module signature
 t/base.t            Test that Pod::ToDemo works
 t/lib/DemoUser.pm   Test recommended accidental usage protection
+SIGNATURE    Added here by Module::Build
