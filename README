@@ -1,0 +1,33 @@
+Pod::ToDemo
+-----------
+
+0.10 - Fri Dec 26 20:25:09 UTC 2003
+
+Pod::ToDemo allows pure-POD tutorials to write demonstration programs when
+invoked directly from the command line.  This is an easy way to provide
+working, tweakable programs for people who've just read a tutorial.
+
+For example, SDL::Tutorial, the bare-bones Perl SDL tutorial, will write a demo program given the command line:
+
+	$ perl -MSDL::Tutorial sdl_demo.pl
+
+INSTALLATION
+------------
+
+Use Module::Build 0.18 or newer.  A backwards-compatible Makefile.PL can
+install this for you, if you so desire.
+
+	$ perl Build.PL
+	$ ./Build
+	$ ./Build test
+	$ ./Build install
+
+If you'd rather install by hand, install also Test::Simple 0.47 or newer and
+Test::Exception.  These are only necessary to run the tests, though they're
+good modules and you really ought to have them anyway.
+
+USAGE
+-----
+
+See the documentation, which really ought to write itself to a demo file.
+Patches welcome!

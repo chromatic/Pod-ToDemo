@@ -1,0 +1,16 @@
+--- #YAML:1.0
+name: Pod-ToDemo
+version: 0.10
+license: perl
+distribution_type: module
+requires:
+  Test::Exception: ''
+  Test::Simple: 0.47
+recommends: {}
+build_requires: {}
+conflicts: {}
+provides:
+  Pod::ToDemo:
+    file: lib/Pod/ToDemo.pm
+    version: 0.10
+generated_by: Module::Build version 0.20

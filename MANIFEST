@@ -1,0 +1,9 @@
+Build.PL            Build the module
+Changes             Project changelog
+lib/Pod/ToDemo.pm   The module itself
+Makefile.PL			Backwards-compatibility for Build.PL
+MANIFEST            This list of files
+META.yml            Module metadata
+README              Installation instructions and basic usage
+t/base.t            Test that Pod::ToDemo works
+t/lib/DemoUser.pm   Test recommended accidental usage protection
