@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Pod-ToDemo
-version: 0.20
+version: 0.21
 author:
   - chromatic, E<lt>chromatic at wgz dot orgE<gt>
 abstract: writes a demo program from a tutorial POD
@@ -11,5 +11,5 @@ requires:
 provides:
   Pod::ToDemo:
     file: lib/Pod/ToDemo.pm
-    version: 0.20
+    version: 0.21
 generated_by: Module::Build version 0.25

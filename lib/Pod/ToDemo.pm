@@ -3,7 +3,7 @@ package Pod::ToDemo;
 use strict;
 
 use vars '$VERSION';
-$VERSION = '0.20';
+$VERSION = '0.21';
 
 sub import
 {

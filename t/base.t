@@ -9,7 +9,7 @@ BEGIN
 use strict;
 use warnings;
 
-use Test::More 'no_plan'; # tests => 7;
+use Test::More tests => 13;
 use Test::Exception;
 
 BEGIN
@@ -51,7 +51,7 @@ Pod::ToDemo->import( 'This is more text' );
 __PACKAGE__->import( 'filename' );
 ::ok( -e 'filename', 'default import() should write to the passed filename' );
 $text = ::slurp( 'filename' );
-::like( $text, qr/^#!.+?perl..use strict;.use warnings;/s,
+::like( $text, qr/^#!$^X..use strict;.use warnings;/s,
 	'... with a Perl header' );
 ::like( $text, qr/..This is more text/s, '... and the given text' );
 

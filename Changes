@@ -1,3 +1,7 @@
+Wed Aug 18 17:25:01 UTC 2004  chromatic
+	- fix a test bug for Windows users
+	- add back in test plan in t/base.t
+
 Wed Aug 18 05:13:33 UTC 2004  chromatic
 	- bugfix release 0.20
 	- improved tests

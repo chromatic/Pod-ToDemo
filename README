@@ -1,7 +1,7 @@
 Pod::ToDemo
 -----------
 
-0.20 - Wed Aug 18 05:13:06 UTC 2004
+0.21 - Wed Aug 18 17:30:00 UTC 2004
 0.10 - Fri Dec 26 20:25:09 UTC 2003
 
 Pod::ToDemo allows pure-POD tutorials to write demonstration programs when
