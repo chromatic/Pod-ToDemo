@@ -3,9 +3,13 @@ Changes             Project changelog
 lib/Pod/ToDemo.pm   The module itself
 Makefile.PL			Backwards-compatibility for Build.PL
 MANIFEST            This list of files
+MANIFEST.SKIP       Files to ignore
 META.yml            Module metadata
 README              Installation instructions and basic usage
 t/0-signature.t     Test the module signature
 t/base.t            Test that Pod::ToDemo works
+t/pod.t             Test the module POD for errors
+t/pod-coverage.t    Test the module POD for completeness
 t/lib/DemoUser.pm   Test recommended accidental usage protection
+SIGNATURE    Added here by Module::Build
 SIGNATURE    Added here by Module::Build

@@ -3,7 +3,7 @@ package Pod::ToDemo;
 use strict;
 
 use vars '$VERSION';
-$VERSION = '0.22';
+$VERSION = '1.00';
 
 sub import
 {
@@ -73,7 +73,7 @@ Pod::ToDemo - writes a demo program from a tutorial POD
 =head1 DESCRIPTION
 
 Pod::ToDemo allows you to write POD-only modules that serve as tutorials which
-can write out demo programs if they're invoked directly.  That is, while
+can write out demo programs if you invoke them directly.  That is, while
 L<SDL::Tutorial> is a tutorial on writing beginner SDL applications with Perl,
 you can invoke it as:
 
@@ -103,17 +103,53 @@ people to write:
 
 	$ perl -MTutorial::Module=I<file_to_write.pl> -e 1
 
+=head1 FUNCTIONS and METHODS
+
+=over
+
+=item import_subroutine( $subroutine )
+
+This is a class method.
+
+Given a subroutine reference to import, returns the reference if the package
+should import it.  If someone has invoked this module from the command line
+(that is, if the command is C<-e>), returns the subroutine reference -- the
+module should write a demo file.
+
+Returns nothing otherwise.
+
+=item import_default( $program_text )
+
+This is a class method.
+
+Given the test of the demo program to write, returns a subroutine suitable for
+writing a demo file.  The subroutine returned takes the current package and the
+name of the file to write and writes the file to the filesystem.
+
+The program text does not need to include the C<#!> line, or the use of the
+L<strict> and L<warnings> pragmas.
+
+=item write_demo( $filename, $demo_text )
+
+Given the name of a file to write and the test of the demo program, attempts to
+write the file.  This will throw an exception that there is no filename if
+there is no filename and will throw an exception if you attempt to overwrite an
+existing file.  Finally, it will also throw an exception if it cannot write the
+file.
+
+=back
+
 =head1 AUTHOR
 
-chromatic, E<lt>chromatic at wgz dot orgE<gt>
+chromatic, C<< chromatic at wgz dot org >>.
 
 =head1 BUGS
 
 No known bugs, now.  Thanks to Greg Lapore for helping me track down a bug in
-0.10 and to rrwo for Windows test tweaks.
+0.10 and to Robert Rothenberg for Windows test tweaks.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003 - 2004, chromatic.  All rights reserved.  This module is
-distributed under the same terms as Perl itself, in the hope that it is useful
-but certainly under no guarantee.
+Copyright (c) 2003 - 2005, chromatic.  All rights reserved.  You may use,
+modify, and distribute this module under the same terms as Perl 5.8.x, in the
+hope that it is useful but certainly under no guarantee.

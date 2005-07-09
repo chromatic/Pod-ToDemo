@@ -11,7 +11,8 @@ my $build = Module::Build->new(
 		'Test::Exception'  => '',
 		'Test::Simple'     => '0.47',
 	},
-	dist_version_from => 'lib/Pod/ToDemo.pm',
+	dist_version_from  => 'lib/Pod/ToDemo.pm',
+	create_makefile_pl => 'traditional',
 );
 
 $build->create_build_script;

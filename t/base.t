@@ -12,9 +12,12 @@ use warnings;
 use Test::More tests => 14;
 use Test::Exception;
 
-BEGIN
+END
 {
-	1 while unlink(qw( foo bar filename some_file ));
+	unless ($ENV{TEST_DEBUG})
+	{
+		1 while unlink(qw( foo bar filename some_file ));
+	}
 }
 
 my $module = 'Pod::ToDemo';
@@ -56,7 +59,7 @@ my $exists = -e 'filename';
 ok( $exists, 'default import() should write to the pased-in filename' );
 
 $text      = ::slurp( 'filename' );
-like( $text, qr/^#!$^X/,                      '... with a Perl header' );
+like( $text, qr/^#!\Q$^X\E/,                  '... with a Perl header' );
 like( $text, qr/use strict;.+use warnings;/s, '... strictures and warnings' );
 like( $text, qr/..This is more text/s,        '... and the given text' );
 
