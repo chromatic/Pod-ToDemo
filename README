@@ -1,6 +1,7 @@
 Pod::ToDemo
 -----------
 
+1.01 - Sat Nov 19 06:14:22 UTC 2005
 1.00 - Sat Jul  9 00:34:21 UTC 2005
 0.22 - Fri Dec 24 20:23:08 UTC 2004
 0.21 - Wed Aug 18 17:30:00 UTC 2004
@@ -12,7 +13,7 @@ working, tweakable programs for people who've just read a tutorial.
 
 For example, SDL::Tutorial, the bare-bones Perl SDL tutorial, will write a demo program given the command line:
 
-	$ perl -MSDL::Tutorial=sdl_demo.pl -e 1
+  $ perl -MSDL::Tutorial=sdl_demo.pl -e 1
 
 INSTALLATION
 ------------
@@ -20,10 +21,10 @@ INSTALLATION
 Use Module::Build 0.18 or newer.  A backwards-compatible Makefile.PL can
 install this for you, if you so desire.
 
-	$ perl Build.PL
-	$ ./Build
-	$ ./Build test
-	$ ./Build install
+  $ perl Build.PL
+  $ ./Build
+  $ ./Build test
+  $ ./Build install
 
 If you'd rather install by hand, install also Test::Simple 0.47 or newer and
 Test::Exception.  These are only necessary to run the tests, though they're

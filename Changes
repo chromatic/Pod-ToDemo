@@ -1,8 +1,15 @@
+Sat Nov 19 06:13:35 UTC 2005  chromatic
+	- version 1.01
+	- fixed simple use not to behave badly when using a demo as a module
+	- improved documentation to show the two use cases
+	- removed useless code
+
 Sat Jul  9 00:22:17 UTC 2005  chromatic
 	- bumped up version number to 1.00
 	- added POD and POD coverage tests
 	- create traditional Makefile.PL from Build.PL
 	- improved POD
+	- removed generated files from source control
 
 Fri Dec 24 20:24:07 UTC 2004  chromatic
 	- actually release 0.22
@@ -10,7 +17,7 @@ Fri Dec 24 20:24:07 UTC 2004  chromatic
 	- clean up Build.PL slightly
 
 Thu Nov 18 06:28:39 UTC 2004  chromatic
-	- one more test tweak for Windows users (thanks to rrwo)
+	- one more test tweak for Windows users (thanks to Robert Rothenberg
 
 Wed Aug 18 17:25:01 UTC 2004  chromatic
 	- fix a test bug for Windows users

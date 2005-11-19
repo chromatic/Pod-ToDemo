@@ -3,32 +3,23 @@ package Pod::ToDemo;
 use strict;
 
 use vars '$VERSION';
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 sub import
 {
 	my ($self, $action) = @_;
-	my $call_package    = caller();
-
 	return unless $action;
 
-	my $import_type     = 'import_' . 
-		( defined &$action ? 'subroutine' : 'default' );
+	my $call_package    = caller();
+	my @command         = caller( 3 );
 
-	my $import_sub      = $self->$import_type( $action );
-	return unless $import_sub;
+	return if @command and $command[1] ne '-e';
+
+	my $import_sub = defined &$action ?
+	                $action : $self->import_default( $action );
 
 	no strict 'refs';
 	*{ $call_package . '::' . 'import' } = $import_sub;
-}
-
-sub import_subroutine
-{
-	my ($self, $sub) = @_;
-	my @c2           = caller( 4 );
-
-	return if @c2 and $c2[1] ne '-e';
-	return $sub;
 }
 
 sub import_default
@@ -65,10 +56,10 @@ Pod::ToDemo - writes a demo program from a tutorial POD
 
 =head1 SYNOPSIS
 
-	use Pod::ToDemo <<'END_HERE';
+  use Pod::ToDemo <<'END_HERE';
 
-	print "Hi, here is my demo program!\n";
-	END_HERE
+  print "Hi, here is my demo program!\n";
+  END_HERE
 
 =head1 DESCRIPTION
 
@@ -77,12 +68,29 @@ can write out demo programs if you invoke them directly.  That is, while
 L<SDL::Tutorial> is a tutorial on writing beginner SDL applications with Perl,
 you can invoke it as:
 
-	$ perl -MSDL::Tutorial=sdl_demo.pl -e 1
+  $ perl -MSDL::Tutorial=sdl_demo.pl -e 1
 
 and it will write a bare-bones demo program called C<sdl_demo.pl> based on the
 tutorial.
 
 =head1 USAGE
+
+You can do things the easy way or the hard way.  I recommend the easy way, but
+the hard way has advantages.
+
+=head2 The Easy Way
+
+The easy way is to do exactly as the synopsis suggests.  Pass a string
+containing your code as the only argument to the C<use Pod::ToDemo> line.  The
+module will write the demo file, when appropriate, and refuse to do anything,
+when appropriate.
+
+=head2 The Hard Way
+
+The hard way exists so that you can customize exactly what you write.  This is
+useful, for example, if you want to steal the demo file entirely out of your
+POD already -- so grab the module's file handle, rewind it as appropriate, and
+search through it for your verbatim code.
 
 Call C<Pod::ToDemo::write_demo()> with two arguments.  C<$filename> is the name
 of the file to write.  If there's no name, this function will C<die()> with an
@@ -95,28 +103,17 @@ want to protect programs that inadvertently use the tutorial from attempting to
 write demo files.  Pod::ToDemo does this automatically for you by checking that
 you haven't invoked the tutorial module from the command line.
 
-To prevent perl from interpreting the name of the file to write as the name of
-a file to invoke (a file which does not yet exist), you must pass the name of
-the file on the command line as an argument to the tutorial module's
+To prevent C<perl> from interpreting the name of the file to write as the name
+of a file to invoke (a file which does not yet exist), you must pass the name
+of the file on the command line as an argument to the tutorial module's
 C<import()> method.  If this doesn't make sense to you, just remember to tell
 people to write:
 
-	$ perl -MTutorial::Module=I<file_to_write.pl> -e 1
+  $ perl -MTutorial::Module=I<file_to_write.pl> -e 1
 
 =head1 FUNCTIONS and METHODS
 
 =over
-
-=item import_subroutine( $subroutine )
-
-This is a class method.
-
-Given a subroutine reference to import, returns the reference if the package
-should import it.  If someone has invoked this module from the command line
-(that is, if the command is C<-e>), returns the subroutine reference -- the
-module should write a demo file.
-
-Returns nothing otherwise.
 
 =item import_default( $program_text )
 

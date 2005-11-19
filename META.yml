@@ -1,6 +1,6 @@
 ---
 name: Pod-ToDemo
-version: 1.00
+version: 1.01
 author: ~
 abstract: writes a demo program from a tutorial POD
 license: perl
@@ -10,5 +10,5 @@ requires:
 provides:
   Pod::ToDemo:
     file: lib/Pod/ToDemo.pm
-    version: 1.00
+    version: 1.01
 generated_by: Module::Build version 0.2611
