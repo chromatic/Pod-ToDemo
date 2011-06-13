@@ -1,3 +1,9 @@
+Changes for Pod::ToDemo
+
+{{$NEXT}}
+    - ported to Dist::Zilla
+    - removed troublesome signature tests
+
 Sat Nov 19 06:13:35 UTC 2005  chromatic
 	- version 1.01
 	- fixed simple use not to behave badly when using a demo as a module
