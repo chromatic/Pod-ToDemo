@@ -1,7 +1,5 @@
 package DemoUser;
 
-use blib;
-
 use Pod::ToDemo sub
 {
 	(undef, my $file) = @_;

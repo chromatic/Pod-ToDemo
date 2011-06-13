@@ -1,34 +1,31 @@
 #!/usr/bin/perl
 
-BEGIN
-{
-	chdir 't' if -d 't';
-	use lib '../lib', '../blib/lib', 'lib';
-}
-
 use strict;
 use warnings;
+
+chdir 't';
+use lib 'lib';
 
 use Test::More tests => 14;
 use Test::Exception;
 
 END
 {
-	unless ($ENV{TEST_DEBUG})
-	{
-		1 while unlink(qw( foo bar filename some_file ));
-	}
+    unless ($ENV{TEST_DEBUG})
+    {
+        1 while unlink(qw( foo bar filename some_file ));
+    }
 }
 
 my $module = 'Pod::ToDemo';
 use_ok( $module ) or exit;
 
 throws_ok { Pod::ToDemo::write_demo() } qr/^Usage:/,
-	'write_demo() should die with Usage error without a filename';
+    'write_demo() should die with Usage error without a filename';
 
 throws_ok { Pod::ToDemo::write_demo( 'base.t' ) }
-	qr/Cowardly refusing to overwrite 'base.t'/,
-	'... or with overwriting error if destination file exists';
+    qr/Cowardly refusing to overwrite 'base.t'/,
+    '... or with overwriting error if destination file exists';
 
 Pod::ToDemo::write_demo( 'bar', 'here is more text' );
 ok( -e 'bar', '... and should write file if everything is sane' );
@@ -39,7 +36,7 @@ is( $text, 'here is more text', '... writing demo file accurately' );
 
 use_ok( 'DemoUser' );
 ok( ! -e 'foo',
-	'defined caller() check should protect against accidental usage' );
+    'defined caller() check should protect against accidental usage' );
 
 my $flag = 0;
 Pod::ToDemo->import( sub { $flag++ } );
@@ -65,16 +62,16 @@ like( $text, qr/..This is more text/s,        '... and the given text' );
 
 SKIP:
 {
-	my @commands = ( $^X, '-Ilib', '-MDemoUser=some_file', '-e 1' );
-	skip( "Couldn't execute subprocess: (@commands)", 1 )
-		if system @commands;
-	ok( -e 'some_file', 'executing in separate process should work' )
-		or diag( "Hmm: (@commands): $!" );
+    my @commands = ( $^X, '-Ilib', '-MDemoUser=some_file', '-e 1' );
+    skip( "Couldn't execute subprocess: (@commands)", 1 )
+        if system @commands;
+    ok( -e 'some_file', 'executing in separate process should work' )
+        or diag( "Hmm: (@commands): $!" );
 }
 
 sub slurp
 {
-	my $filename = shift;
-	open( my $file, $filename ) or die "Cannot read demo $filename: $!\n";
-	return scalar do { local $/; <$file> };
+    my $filename = shift;
+    open( my $file, $filename ) or die "Cannot read demo $filename: $!\n";
+    return scalar do { local $/; <$file> };
 }
