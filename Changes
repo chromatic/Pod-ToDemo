@@ -1,6 +1,8 @@
 Changes for Pod::ToDemo
 
 {{$NEXT}}
+
+1.20110614 2011-06-14 15:34:28 America/Los_Angeles
     - fixed Git links in metadata
 
 1.20110613 2011-06-12 20:22:51 America/Los_Angeles
